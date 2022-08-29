@@ -1,0 +1,19 @@
+{
+	"editor.formatOnSave": true,
+	"files.associations": {
+		"*.hcl": "terraform"
+	},
+	"[terraform]": {
+		"editor.tabSize": 2,
+		"editor.formatOnSave": true
+	},
+	"[terraform-vars]": {
+		"editor.tabSize": 2
+	},
+	"files.watcherExclude": {
+		"**/.terraform.lock.hcl": true,
+		"**/.terraform/**": true,
+		"**/.git/objects/**": true,
+		"**/.git/subtree-cache/**": true,
+	}
+}

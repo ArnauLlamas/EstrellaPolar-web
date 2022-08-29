@@ -1,0 +1,1 @@
+../../shared/global/outputs.tf
