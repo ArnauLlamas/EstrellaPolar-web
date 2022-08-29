@@ -1,5 +1,5 @@
 ## TFLINT
-FROM registry.gitlab.com/gitlab-org/terraform-images/releases/1.1:latest as tflint-builder
+FROM registry.gitlab.com/gitlab-org/terraform-images/releases/1.2:latest as tflint-builder
 
 LABEL maintainer="Arnau Llamas <arnau.llamas@gmail.com>"
 
@@ -22,7 +22,7 @@ FROM golang:latest as tfsec-builder
 RUN go install github.com/aquasecurity/tfsec/cmd/tfsec@latest
 
 ## DEV
-FROM registry.gitlab.com/gitlab-org/terraform-images/releases/1.1:latest
+FROM registry.gitlab.com/gitlab-org/terraform-images/releases/1.2:latest
 
 WORKDIR /code
 

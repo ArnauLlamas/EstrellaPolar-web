@@ -1,4 +1,4 @@
-output "my_output" {
-  value       = "test"
-  description = "test"
+output "webs" {
+  value       = var.web_domains
+  description = "Web domains"
 }

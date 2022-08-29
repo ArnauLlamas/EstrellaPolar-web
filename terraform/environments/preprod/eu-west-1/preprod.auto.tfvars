@@ -1,1 +1,0 @@
-bucket_name = "inb-training-preprod-eu-west-1-skeleton-tf"

@@ -1,5 +1,13 @@
 aws_default_tags = {
-  Billing           = "billing-tag"
-  Project           = "project-tag"
+  Billing           = "Estrella Polar - Marketing Dept"
+  Project           = "Static Website"
+  Environment       = "Testing"
   Terraform-Managed = true
+  Terraform-Project = "https://github.com/ArnyDnD/EstrellaPolar-web"
 }
+
+bucket_name     = "estrellapolar-website-testing"
+bucket_name_tag = "EstrellaPolar Web"
+
+root_domain = "estrellapolar.org"
+web_domains = ["testing.estrellapolar.org"]
