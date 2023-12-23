@@ -41,7 +41,7 @@ resource "aws_lambda_function" "modify_response_headers_function" {
   source_code_hash = data.archive_file.lambda_zip_inline.output_base64sha256
 
   handler = "index.handler"
-  runtime = "nodejs16.x"
+  runtime = "nodejs20.x"
   publish = true
 
   function_name = local.lambda_function_name
