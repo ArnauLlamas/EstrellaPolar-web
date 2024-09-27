@@ -20,7 +20,7 @@ exports.handler = (event, context, callback) => {
 
   //Set new headers 
   headers['strict-transport-security'] = [{key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubdomains; preload'}]; 
-  headers['content-security-policy'] = [{key: 'Content-Security-Policy', value: "default-src 'self' https://fonts.gstatic.com; img-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; require-trusted-types-for 'script';"}]; 
+  headers['content-security-policy'] = [{key: 'Content-Security-Policy', value: "default-src 'self' https://fonts.gstatic.com ; img-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline' https://assets.mailerlite.com/js/universal.js; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; require-trusted-types-for 'script';"}]; 
   headers['x-content-type-options'] = [{key: 'X-Content-Type-Options', value: 'nosniff'}]; 
   headers['x-frame-options'] = [{key: 'X-Frame-Options', value: 'DENY'}]; 
   headers['x-xss-protection'] = [{key: 'X-XSS-Protection', value: '1; mode=block'}]; 
@@ -49,20 +49,6 @@ resource "aws_lambda_function" "modify_response_headers_function" {
 }
 
 resource "aws_iam_role" "modify_response_headers_function" {
-  inline_policy {
-    name = "logs"
-    policy = jsonencode({
-      Version = "2012-10-17"
-      Statement = [
-        {
-          Action   = ["logs:CreateLogStream", "logs:PutLogEvents"]
-          Effect   = "Allow"
-          Resource = "arn:aws:logs:us-east-1:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${local.lambda_function_name}:*"
-        }
-      ]
-    })
-  }
-
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -82,6 +68,21 @@ resource "aws_iam_role" "modify_response_headers_function" {
           Service = "edgelambda.amazonaws.com"
         }
       },
+    ]
+  })
+
+  managed_policy_arns = [aws_iam_policy.modify_response_headers_function.arn]
+}
+
+resource "aws_iam_policy" "modify_response_headers_function" {
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action   = ["logs:CreateLogStream", "logs:PutLogEvents"]
+        Effect   = "Allow"
+        Resource = "arn:aws:logs:us-east-1:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${local.lambda_function_name}:*"
+      }
     ]
   })
 }
