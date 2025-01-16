@@ -1,1 +1,0 @@
-../../shared/global/provider.tf
