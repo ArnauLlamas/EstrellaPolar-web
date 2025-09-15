@@ -75,7 +75,7 @@ resource "aws_cloudfront_distribution" "cdn" {
 
     target_origin_id = var.cdn_origin_access.id
 
-    viewer_protocol_policy = "https-only"
+    viewer_protocol_policy = "redirect-to-https"
 
     lambda_function_association {
       event_type   = "origin-response"
