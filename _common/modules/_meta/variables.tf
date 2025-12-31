@@ -27,3 +27,13 @@ variable "web_domains" {
   type        = list(string)
   description = "List of full domains from where the website will be served"
 }
+
+variable "pb_root_domain" {
+  type        = string
+  description = "The domain where the website will be hosted, used to order certificates"
+}
+
+variable "pb_web_domains" {
+  type        = list(string)
+  description = "List of full domains from where the website will be served"
+}

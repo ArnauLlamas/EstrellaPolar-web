@@ -1,5 +1,5 @@
-tofu 1.9.0
-terragrunt 0.72.2
-tflint 0.55.0
-trivy 0.58.2
-pre-commit 4.0.1
+tofu 1.10.7
+terragrunt 0.93.9
+tflint 0.60.0
+trivy 0.67.2
+pre-commit 4.4.0

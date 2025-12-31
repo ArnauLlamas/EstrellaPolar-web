@@ -6,4 +6,7 @@ locals {
 
   root_domain = "estrellapolar.org"
   web_domains = ["estrellapolar.org", "www.estrellapolar.org"]
+
+  pb_root_domain = "patriciabenejam.com"
+  pb_web_domains = ["patriciabenejam.com"]
 }
