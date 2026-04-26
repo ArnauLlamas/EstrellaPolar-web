@@ -37,10 +37,10 @@ resource "aws_cloudfront_distribution" "cdn" {
     }
   }
 
-  logging_config {
-    bucket = "estrellapolar-logs-eu-west-1.s3.amazonaws.com"
-    prefix = "website/${var.environment}"
-  }
+  # logging_config {
+  #   bucket = "estrellapolar-logs-eu-west-1.s3.amazonaws.com"
+  #   prefix = "website/${var.environment}"
+  # }
 
   custom_error_response {
     error_caching_min_ttl = 10
