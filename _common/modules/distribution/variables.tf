@@ -13,12 +13,9 @@ variable "web_domains" {
   description = "List of full domains from where the website will be served"
 }
 
-variable "cdn_origin_access" {
-  type = object({
-    id   = string
-    path = string
-  })
-  description = "Origin Access ID and Path for the CloudFront Distribution"
+variable "origin_access_control_id" {
+  type        = string
+  description = "ID of default S3 origin access control"
 }
 
 variable "bucket_arn" {

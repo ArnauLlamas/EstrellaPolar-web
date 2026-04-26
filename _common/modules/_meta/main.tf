@@ -1,11 +1,14 @@
-resource "aws_cloudfront_origin_access_identity" "cdn_origin" {}
-
 module "web_hosting" {
   source = "../web_hosting"
 
-  bucket_name           = var.bucket_name
-  name_tag              = var.bucket_name_tag
-  cdn_origin_access_arn = aws_cloudfront_origin_access_identity.cdn_origin.iam_arn
+  bucket_name = var.bucket_name
+}
+
+resource "aws_cloudfront_origin_access_control" "default" {
+  name                              = "default-oac"
+  origin_access_control_origin_type = "s3"
+  signing_behavior                  = "always"
+  signing_protocol                  = "sigv4"
 }
 
 module "distribution" {
@@ -20,10 +23,7 @@ module "distribution" {
   root_domain = var.root_domain
   web_domains = var.web_domains
 
-  cdn_origin_access = {
-    id   = aws_cloudfront_origin_access_identity.cdn_origin.id
-    path = aws_cloudfront_origin_access_identity.cdn_origin.cloudfront_access_identity_path
-  }
+  origin_access_control_id = aws_cloudfront_origin_access_control.default.id
 
   bucket_arn                  = module.web_hosting.s3_arn
   bucket_regional_domain_name = module.web_hosting.s3_regional_domain
@@ -41,11 +41,43 @@ module "patriciabenejam_distribution" {
   root_domain = var.pb_root_domain
   web_domains = var.pb_web_domains
 
-  cdn_origin_access = {
-    id   = aws_cloudfront_origin_access_identity.cdn_origin.id
-    path = aws_cloudfront_origin_access_identity.cdn_origin.cloudfront_access_identity_path
-  }
+  origin_access_control_id = aws_cloudfront_origin_access_control.default.id
 
   bucket_arn                  = module.web_hosting.s3_arn
   bucket_regional_domain_name = module.web_hosting.s3_regional_domain
+}
+
+data "aws_iam_policy_document" "web_hosting_iam_policy" {
+  statement {
+    sid    = "AllowCloudFrontServicePrincipalReadWrite"
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["cloudfront.amazonaws.com"]
+    }
+
+    actions = [
+      "s3:GetObject",
+      "s3:PutObject",
+    ]
+
+    resources = [
+      "${module.web_hosting.s3_arn}/*",
+    ]
+
+    condition {
+      test     = "StringEquals"
+      variable = "AWS:SourceArn"
+      values = [
+        module.distribution.cdn.arn,
+        module.patriciabenejam_distribution.cdn.arn
+      ]
+    }
+  }
+}
+
+resource "aws_s3_bucket_policy" "web_hosting_policy_attachment" {
+  bucket = module.web_hosting.s3_bucket
+  policy = data.aws_iam_policy_document.web_hosting_iam_policy.json
 }

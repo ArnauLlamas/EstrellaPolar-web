@@ -1,0 +1,6 @@
+[tools]
+opentofu = "latest"
+terragrunt = "latest"
+tflint = "latest"
+trivy = "latest"
+pre-commit = "4"

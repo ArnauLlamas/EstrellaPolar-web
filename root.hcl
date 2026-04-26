@@ -7,7 +7,7 @@ locals {
     Project     = "Website"
     Environment = local.env_vars.environment
     IaC         = "terragrunt"
-    Repository  = "https://github.com/ArnyDnD/EstrellaPolar-web"
+    Repository  = "https://github.com/ArnauLlamas/EstrellaPolar-web"
   })
 }
 

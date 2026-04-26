@@ -5,3 +5,7 @@ output "s3_regional_domain" {
 output "s3_arn" {
   value = aws_s3_bucket.web_hosting.arn
 }
+
+output "s3_bucket" {
+  value = aws_s3_bucket.web_hosting.bucket
+}
