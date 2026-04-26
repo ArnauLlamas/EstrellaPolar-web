@@ -30,10 +30,9 @@ resource "aws_cloudfront_distribution" "cdn" {
 
     viewer_protocol_policy = "redirect-to-https"
 
-    lambda_function_association {
-      event_type   = "origin-response"
-      include_body = "false"
-      lambda_arn   = aws_lambda_function.modify_response_headers_function.qualified_arn
+    function_association {
+      event_type   = "viewer-response"
+      function_arn = aws_cloudfront_function.modify_response_headers.arn
     }
   }
 
