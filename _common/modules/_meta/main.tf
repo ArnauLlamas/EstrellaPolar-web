@@ -13,6 +13,7 @@ resource "aws_cloudfront_origin_access_control" "default" {
 
 module "distribution" {
   source = "../distribution"
+  count  = var.environment != "production" ? 0 : 1
   providers = {
     aws.main      = aws
     aws.us-east-1 = aws.us-east-1
@@ -74,10 +75,7 @@ data "aws_iam_policy_document" "web_hosting_iam_policy" {
     condition {
       test     = "StringEquals"
       variable = "AWS:SourceArn"
-      values = [
-        module.distribution.cdn.arn,
-        module.patriciabenejam_distribution.cdn.arn
-      ]
+      values   = var.environment == "production" ? [module.distribution[0].cdn.arn, module.patriciabenejam_distribution.cdn.arn] : [module.patriciabenejam_distribution.cdn.arn]
     }
   }
 }
