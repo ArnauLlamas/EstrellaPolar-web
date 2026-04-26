@@ -14,8 +14,12 @@ resource "aws_cloudfront_distribution" "cdn" {
     origin_id                = local.s3_origin_id
   }
 
-  enabled             = true
-  price_class         = "PriceClass_100"
+  enabled = true
+
+  # Enabled through free tier plan check lifecycle policy below to override
+  # price_class = "PriceClass_100"
+  # web_acl_id  = null
+
   default_root_object = "index.html"
   http_version        = "http2and3"
 
@@ -44,11 +48,6 @@ resource "aws_cloudfront_distribution" "cdn" {
     }
   }
 
-  # logging_config {
-  #   bucket = "estrellapolar-logs-eu-west-1.s3.amazonaws.com"
-  #   prefix = "website/${var.environment}"
-  # }
-
   custom_error_response {
     error_caching_min_ttl = 10
     error_code            = 403
@@ -72,5 +71,6 @@ resource "aws_cloudfront_distribution" "cdn" {
 
   lifecycle {
     create_before_destroy = true
+    ignore_changes        = [price_class, web_acl_id]
   }
 }
