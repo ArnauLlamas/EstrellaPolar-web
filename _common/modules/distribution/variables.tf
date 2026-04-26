@@ -25,3 +25,12 @@ variable "bucket_arn" {
 variable "bucket_regional_domain_name" {
   type = string
 }
+
+variable "domain_redirect" {
+  type = object({
+    from = string
+    to   = string
+  })
+  default     = null
+  description = "Optional 301 redirect, replacing 'from' domain with 'to' domain preserving subdomain and URI"
+}

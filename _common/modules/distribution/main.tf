@@ -34,6 +34,14 @@ resource "aws_cloudfront_distribution" "cdn" {
       event_type   = "viewer-response"
       function_arn = aws_cloudfront_function.modify_response_headers.arn
     }
+
+    dynamic "function_association" {
+      for_each = var.domain_redirect != null ? [1] : []
+      content {
+        event_type   = "viewer-request"
+        function_arn = aws_cloudfront_function.domain_redirect[0].arn
+      }
+    }
   }
 
   # logging_config {

@@ -27,7 +27,12 @@ module "distribution" {
 
   bucket_arn                  = module.web_hosting.s3_arn
   bucket_regional_domain_name = module.web_hosting.s3_regional_domain
-}
+
+  domain_redirect = {
+    from = "estrellapolar.org"
+    to   = "patriciabenejam.com"
+  }
+} 
 
 module "patriciabenejam_distribution" {
   source = "../distribution"

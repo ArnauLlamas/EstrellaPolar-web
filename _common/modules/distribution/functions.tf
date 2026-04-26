@@ -21,3 +21,33 @@ resource "aws_cloudfront_function" "modify_response_headers" {
     }
   EOF
 }
+
+resource "aws_cloudfront_function" "domain_redirect" {
+  count = var.domain_redirect != null ? 1 : 0
+
+  name    = "domain-redirect-${random_pet.this.id}-${var.environment}"
+  runtime = "cloudfront-js-2.0"
+  publish = true
+
+  code = <<-EOF
+    var defined = ${jsonencode(var.domain_redirect)};
+
+    function handler(event) {
+      var request = event.request;
+      var host = request.headers.host.value;
+
+      if (host === defined.from || host.endsWith('.' + defined.from)) {
+        var newHost = host.replace(defined.from, defined.to);
+        return {
+          statusCode: 301,
+          statusDescription: 'Moved Permanently',
+          headers: {
+            location: { value: 'https://' + newHost + request.uri }
+          }
+        };
+      }
+
+      return request;
+    }
+  EOF
+}
