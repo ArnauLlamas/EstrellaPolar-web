@@ -3,19 +3,9 @@ variable "environment" {
   description = "The environment where the website will be deployed"
 }
 
-variable "path_to_modules_folder" {
-  type        = string
-  description = "Path to the modules folder"
-}
-
 variable "bucket_name" {
   type        = string
   description = "S3 Bucket name that will host the static website"
-}
-
-variable "bucket_name_tag" {
-  type        = string
-  description = "Value of the 'Name' tag of the S3 bucket that will host the static website"
 }
 
 variable "root_domain" {

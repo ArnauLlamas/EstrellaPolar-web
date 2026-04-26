@@ -5,7 +5,7 @@ module "web_hosting" {
 }
 
 resource "aws_cloudfront_origin_access_control" "default" {
-  name                              = "default-oac"
+  name                              = "default-oac-${var.environment}"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"
@@ -32,7 +32,7 @@ module "distribution" {
     from = "estrellapolar.org"
     to   = "patriciabenejam.com"
   }
-} 
+}
 
 module "patriciabenejam_distribution" {
   source = "../distribution"

@@ -8,5 +8,5 @@ locals {
   web_domains = ["estrellapolar.org", "www.estrellapolar.org"]
 
   pb_root_domain = "patriciabenejam.com"
-  pb_web_domains = ["patriciabenejam.com"]
+  pb_web_domains = ["patriciabenejam.com", "www.patriciabenejam.com"]
 }
